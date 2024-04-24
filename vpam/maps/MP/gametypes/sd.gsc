@@ -365,8 +365,8 @@ Callback_PlayerConnect()
 		iprintln(&"MPSCRIPT_CONNECTED", self);
 
 	lpselfnum = self getEntityNumber();
-	lpselfguid = self getGuid();
-	logPrint("J;" + lpselfguid + ";" + lpselfnum + ";" + self.name + "\n");
+	//lpselfguid = self getGuid();
+	logPrint("J;" + ";" + lpselfnum + ";" + self.name + "\n");
 
 /**/if (level.p_readying == true) {
 /**/	self thread maps\mp\gametypes\_pam_readyup::monitor_player();
@@ -839,8 +839,8 @@ Callback_PlayerDisconnect()
 	iprintln(&"MPSCRIPT_DISCONNECTED", self);
 	
 	lpselfnum = self getEntityNumber();
-	lpselfguid = self getGuid();
-	logPrint("Q;" + lpselfguid + ";" + lpselfnum + ";" + self.name + "\n");
+	//lpselfguid = self getGuid();
+	logPrint("Q;" + ";" + lpselfnum + ";" + self.name + "\n");
 
 /**/level thread maps\mp\gametypes\_pam_readyup::update();
 /**/level thread snipers::check();
@@ -952,7 +952,7 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 	if(self.sessionstate != "dead")
 	{
 		lpselfnum = self getEntityNumber();
-		lpselfguid = self getGuid();
+		//lpselfguid = self getGuid();
 		lpselfname = self.name;
 		lpselfteam = self.pers["team"];
 		lpattackerteam = "";
@@ -960,14 +960,14 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 		if(isPlayer(eAttacker))
 		{
 			lpattacknum = eAttacker getEntityNumber();
-			lpattackguid = eAttacker getGuid();
+			//lpattackguid = eAttacker getGuid();
 			lpattackname = eAttacker.name;
 			lpattackerteam = eAttacker.pers["team"];
 		}
 		else
 		{
 			lpattacknum = -1;
-			lpattackguid = "";
+			//lpattackguid = "";
 			lpattackname = "";
 			lpattackerteam = "world";
 		}
@@ -976,10 +976,10 @@ Callback_PlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sW
 		{  
 			lpattacknum = lpselfnum;
 			lpattackname = lpselfname;
-			lpattackguid = lpselfguid;
+			//lpattackguid = lpselfguid;
 		}
 
-		logPrint("D;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + "\n");
+		logPrint("D;"  + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";"  + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + "\n");
 	}
 }
 
@@ -1014,7 +1014,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 	}
 
 	lpselfnum = self getEntityNumber();
-	lpselfguid = self getGuid();
+	//lpselfguid = self getGuid();
 	lpselfname = self.name;
 	lpselfteam = self.pers["team"];
 	lpattackerteam = "";
@@ -1053,7 +1053,7 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		}
 		
 		lpattacknum = attacker getEntityNumber();
-		lpattackguid = attacker getGuid();
+		//lpattackguid = attacker getGuid();
 		lpattackname = attacker.name;
 		lpattackerteam = attacker.pers["team"];
 	}
@@ -1065,12 +1065,12 @@ Callback_PlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDi
 		self.score = self.pers["score"];
 
 		lpattacknum = -1;
-		lpattackguid = "";
+		//lpattackguid = "";
 		lpattackname = "";
 		lpattackerteam = "world";
 	}
 
-	logPrint("K;" + lpselfguid + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + lpattackguid + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + "\n");
+	logPrint("K;" + ";" + lpselfnum + ";" + lpselfteam + ";" + lpselfname + ";" + ";" + lpattacknum + ";" + lpattackerteam + ";" + lpattackname + ";" + sWeapon + ";" + iDamage + ";" + sMeansOfDeath + ";" + sHitLoc + "\n");
 
 	// Make the player drop his weapon
 	if (!isdefined (self.autobalance))
@@ -1714,11 +1714,11 @@ endRound(roundwinner)
 		players = getentarray("player", "classname");
 		for(i = 0; i < players.size; i++)
 		{
-			lpGuid = players[i] getGuid();
+			//lpGuid = players[i] getGuid();
 			if((isdefined(players[i].pers["team"])) && (players[i].pers["team"] == "allies"))
-				winners = (winners + ";" + lpGuid + ";" + players[i].name);
+				winners = (winners + ";" + ";" + players[i].name);
 			else if((isdefined(players[i].pers["team"])) && (players[i].pers["team"] == "axis"))
-				losers = (losers + ";" + lpGuid + ";" + players[i].name);
+				losers = (losers + ";" + ";" + players[i].name);
 		}
 		logPrint("W;allies" + winners + "\n");
 		logPrint("L;axis" + losers + "\n");
@@ -1731,11 +1731,11 @@ endRound(roundwinner)
 		players = getentarray("player", "classname");
 		for(i = 0; i < players.size; i++)
 		{
-			lpGuid = players[i] getGuid();
+			//lpGuid = players[i] getGuid();
 			if((isdefined(players[i].pers["team"])) && (players[i].pers["team"] == "axis"))
-				winners = (winners + ";" + lpGuid + ";" + players[i].name);
+				winners = (winners + ";"  + ";" + players[i].name);
 			else if((isdefined(players[i].pers["team"])) && (players[i].pers["team"] == "allies"))
-				losers = (losers + ";" + lpGuid + ";" + players[i].name);
+				losers = (losers + ";" + ";" + players[i].name);
 		}
 		logPrint("W;axis" + winners + "\n");
 		logPrint("L;allies" + losers + "\n");
@@ -2395,8 +2395,8 @@ bombzone_think(bombzone_other)
 					level.bombplanted = true;
 					
 					lpselfnum = other getEntityNumber();
-					lpselfguid = other getGuid();
-					logPrint("A;" + lpselfguid + ";" + lpselfnum + ";" + game["attackers"] + ";" + other.name + ";" + "bomb_plant" + "\n");
+					//lpselfguid = other getGuid();
+					logPrint("A;" + ";" + lpselfnum + ";" + game["attackers"] + ";" + other.name + ";" + "bomb_plant" + "\n");
 					
 /**/				// Hide announcement.
 /**/				// announcement(&"SD_EXPLOSIVESPLANTED");
@@ -2597,8 +2597,8 @@ bomb_think()
 					announcement(&"SD_EXPLOSIVESDEFUSED");
 					
 					lpselfnum = other getEntityNumber();
-					lpselfguid = other getGuid();
-					logPrint("A;" + lpselfguid + ";" + lpselfnum + ";" + game["defenders"] + ";" + other.name + ";" + "bomb_defuse" + "\n");
+					//lpselfguid = other getGuid();
+					logPrint("A;" + ";" + lpselfnum + ";" + game["defenders"] + ";" + other.name + ";" + "bomb_defuse" + "\n");
 					
 					players = getentarray("player", "classname");
 					for(i = 0; i < players.size; i++)

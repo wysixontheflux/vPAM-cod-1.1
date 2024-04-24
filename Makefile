@@ -19,16 +19,18 @@ else
 main_dirname = uo
 endif
 
-SRC_FILES = $(shell find src/ -type f)
-MOD_FILES = $(shell find $(MOD)/ -type f)
+# Find and list files maintaining relative paths from the 'src/' or '$(MOD)/' directory
+SRC_FILES = $(shell find src/ -type f -name '*.gsc' | sed 's|^src/||')
+MOD_FILES = $(shell find $(MOD)/ -type f -name '*.gsc' | sed 's|^$(MOD)/||')
 
 $(outfile): $(SRC_FILES) $(MOD_FILES)
-	cd src/    && zip -r ../$@ $(SRC_FILES:src/%=%)
-	cd $(MOD)/ && zip -r ../$@ $(MOD_FILES:$(MOD)/%=%)
+	@echo Creating PK3 file from source files...
+	@cd src/ && zip -r ../$(outfile) $(SRC_FILES)
+	@cd $(MOD)/ && zip -r ../$(outfile) $(MOD_FILES)
 
 .PHONY: clean
 clean:
-	rm $(outfile)
+	rm -f $(outfile)
 
 .PHONY: run
 .PHONY: install
@@ -44,7 +46,7 @@ run: install
 install: $(outfile)
 	rm -rf $(homepath)/$(main_dirname)/
 
-	mkdir --parents $(homepath)/$(main_dirname)/
+	mkdir -p $(homepath)/$(main_dirname)/
 	cp $(outfile) $(homepath)/$(main_dirname)/
 	cp -r cfg $(homepath)/$(main_dirname)/
 
