@@ -77,7 +77,7 @@ main()
 	level._nade_count_sniper = getCvarInt("p_nades_sniper");
 
 	level._force_autoscreenshots = !!getCvarInt("p_force_autoscreenshots");
-	level._force_autodemo = !!getCvarInt("p_force_autodemo");
+	//level._force_autodemo = !!getCvarInt("p_force_autodemo");
 
 	level._bombtimer = !!getCvarInt("p_bombtimer");
 

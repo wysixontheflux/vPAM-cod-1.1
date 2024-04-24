@@ -116,11 +116,11 @@ main()
 	spawnpointname = "mp_searchanddestroy_spawn_allied";
 	spawnpoints = getentarray(spawnpointname, "classname");
 	
-	if(!spawnpoints.size)
+	/*if(!spawnpoints.size)
 	{
 		maps\mp\gametypes\_callbacksetup::AbortLevel();
 		return;
-	}
+	}*/
 
 	for(i = 0; i < spawnpoints.size; i++)
 		spawnpoints[i] placeSpawnpoint();
@@ -128,11 +128,11 @@ main()
 	spawnpointname = "mp_searchanddestroy_spawn_axis";
 	spawnpoints = getentarray(spawnpointname, "classname");
 
-	if(!spawnpoints.size)
+	/*if(!spawnpoints.size)
 	{
 		maps\mp\gametypes\_callbacksetup::AbortLevel();
 		return;
-	}
+	*/
 
 	for(i = 0; i < spawnpoints.size; i++)
 		spawnpoints[i] PlaceSpawnpoint();
@@ -268,7 +268,7 @@ Callback_StartGameType()
 		if(getCvar("scr_axis") != "")
 			game["axis"] = getCvar("scr_axis");
 
-		game["menu_serverinfo"] = "serverinfo_" + getCvar("g_gametype");
+		//game["menu_serverinfo"] = "serverinfo_" + getCvar("g_gametype");
 		game["menu_team"] = "team_" + game["allies"] + game["axis"];
 		game["menu_weapon_allies"] = "weapon_" + game["allies"];
 		game["menu_weapon_axis"] = "weapon_" + game["axis"];
@@ -291,7 +291,7 @@ Callback_StartGameType()
 		precacheString(&"SD_ALLIESHAVEBEENELIMINATED");
 		precacheString(&"SD_AXISHAVEBEENELIMINATED");
 
-		precacheMenu(game["menu_serverinfo"]);
+		//precacheMenu(game["menu_serverinfo"]);
 		precacheMenu(game["menu_team"]);
 		precacheMenu(game["menu_weapon_allies"]);
 		precacheMenu(game["menu_weapon_axis"]);
@@ -333,16 +333,17 @@ Callback_StartGameType()
 /**/maps\mp\gametypes\_pam::main();
 	maps\mp\gametypes\_teams::modeltype();
 	maps\mp\gametypes\_teams::initGlobalCvars();
-	maps\mp\gametypes\_teams::initWeaponCvars();
+	//maps\mp\gametypes\_teams::initWeaponCvars();
 	maps\mp\gametypes\_teams::restrictPlacedWeapons();
-	thread maps\mp\gametypes\_teams::updateGlobalCvars();
-	thread maps\mp\gametypes\_teams::updateWeaponCvars();
+	//thread maps\mp\gametypes\_teams::updateGlobalCvars();
+	//thread maps\mp\gametypes\_teams::updateWeaponCvars();
 
 /**/// Fix _teams.gsc bug removing wrong entity.
-/**/if(level.allow_kar98ksniper != "1") {
-/**/	maps\mp\gametypes\_teams::deletePlacedEntity("mpweapon_kar98k_scoped");
-/**/}
-/**/level thread snipers::check();
+/*if(level.allow_kar98ksniper != "1") {
+	maps\mp\gametypes\_teams::deletePlacedEntity("mpweapon_kar98k_scoped");
+}
+level thread snipers::check();
+ */
 
 	game["gamestarted"] = true;
 	
@@ -419,8 +420,8 @@ Callback_PlayerConnect()
 		self setClientCvar("g_scriptMainMenu", game["menu_team"]);
 		self setClientCvar("ui_weapontab", "0");
 
-		if(!isDefined(self.pers["skipserverinfo"]))
-			self openMenu(game["menu_serverinfo"]);
+		//if(!isDefined(self.pers["skipserverinfo"]))
+			//self openMenu(game["menu_serverinfo"]);
 
 		self.pers["team"] = "spectator";
 		self.sessionteam = "spectator";
@@ -434,11 +435,12 @@ Callback_PlayerConnect()
 
 		self waittill("menuresponse", menu, response);
 		
-		if(menu == game["menu_serverinfo"] && response == "close")
+		/*if(menu == game["menu_serverinfo"] && response == "close")
 		{
 			self.pers["skipserverinfo"] = true;
 			self openMenu(game["menu_team"]);
 		}
+		 */
 
 /**/	// With preset weapons, no weapons menu should be shown.
 /**/	if (game["_weapons"] == 2) {
@@ -508,7 +510,7 @@ Callback_PlayerConnect()
 				if ( (level.teambalance > 0) && (!isdefined (skipbalancecheck)) )
 				{
 					//Get a count of all players on Axis and Allies
-					players = maps\mp\gametypes\_teams::CountPlayers();
+					//players = maps\mp\gametypes\_teams::CountPlayers();
 					
 /**/				// Fix bug where player could still join team by first selecting other.
 /**/				// if (self.sessionteam != "spectator")
@@ -575,7 +577,7 @@ Callback_PlayerConnect()
 				self.pers["savedmodel"] = undefined;
 
 				// update spectator permissions immediately on change of team
-				maps\mp\gametypes\_teams::SetSpectatePermissions();
+				//maps\mp\gametypes\_teams::SetSpectatePermissions();
 
 				self setClientCvar("ui_weapontab", "1");
 
@@ -658,7 +660,7 @@ Callback_PlayerConnect()
 /**/			}
 /**/			weapon = response;
 /**/		} else {
-/**/			weapon = self maps\mp\gametypes\_teams::restrict(response);
+/**/			//weapon = self maps\mp\gametypes\_teams::restrict(response);
 /**/		}
 /**/		// weapon = self maps\mp\gametypes\_teams::restrict(response);
 
@@ -683,8 +685,8 @@ Callback_PlayerConnect()
 					self setWeaponSlotClipAmmo("primary", 999);
 					self switchToWeapon(weapon);
 
-					maps\mp\gametypes\_teams::givePistol();
-					maps\mp\gametypes\_teams::giveGrenades(self.pers["selectedweapon"]);
+					//maps\mp\gametypes\_teams::givePistol();
+					//maps\mp\gametypes\_teams::giveGrenades(self.pers["selectedweapon"]);
 
 /**/				self equipment::take_or_set(self.pers["selectedweapon"]);
 				}
@@ -707,8 +709,8 @@ Callback_PlayerConnect()
 					self setWeaponSlotClipAmmo("primary", 999);
 					self switchToWeapon(weapon);
 
-					maps\mp\gametypes\_teams::givePistol();
-					maps\mp\gametypes\_teams::giveGrenades(self.pers["selectedweapon"]);
+					//maps\mp\gametypes\_teams::givePistol();
+					//maps\mp\gametypes\_teams::giveGrenades(self.pers["selectedweapon"]);
 
 /**/				self equipment::take_or_set(self.pers["selectedweapon"]);
 				}
@@ -763,7 +765,7 @@ Callback_PlayerConnect()
 				}
 				else
 				{
-					weaponname = maps\mp\gametypes\_teams::getWeaponName(self.pers["weapon"]);
+					//weaponname = maps\mp\gametypes\_teams::getWeaponName(self.pers["weapon"]);
 
 					if(self.pers["team"] == "allies")
 					{
@@ -781,7 +783,7 @@ Callback_PlayerConnect()
 					}
 				}
 			}
-			self thread maps\mp\gametypes\_teams::SetSpectatePermissions();
+			//self thread maps\mp\gametypes\_teams::SetSpectatePermissions();
 			if (isdefined (self.autobalance_notify))
 				self.autobalance_notify destroy();
 		}
@@ -1183,11 +1185,11 @@ spawnPlayer()
 		self setSpawnWeapon(self.pers["weapon"]);
 	}
 
-	maps\mp\gametypes\_teams::givePistol();
-	maps\mp\gametypes\_teams::giveGrenades(self.pers["selectedweapon"]);
+	//maps\mp\gametypes\_teams::givePistol();
+	//maps\mp\gametypes\_teams::giveGrenades(self.pers["selectedweapon"]);
 
 	self.usedweapons = false;
-	thread maps\mp\gametypes\_teams::watchWeaponUsage();
+	//thread maps\mp\gametypes\_teams::watchWeaponUsage();
 
 	if(self.pers["team"] == game["attackers"])
 		self setClientCvar("cg_objectiveText", &"SD_OBJ_ATTACKERS");
@@ -1198,13 +1200,13 @@ spawnPlayer()
 	{
 		if(self.pers["team"] == "allies")
 		{
-			self.headicon = game["headicon_allies"];
-			self.headiconteam = "allies";
+			//self.headicon = game["headicon_allies"];
+			//self.headiconteam = "allies";
 		}
 		else
 		{
-			self.headicon = game["headicon_axis"];
-			self.headiconteam = "axis";
+			//self.headicon = game["headicon_axis"];
+			//self.headiconteam = "axis";
 		}
 	}
 /**/icon::set(); // Override icons.
@@ -1227,7 +1229,7 @@ spawnSpectator(origin, angles)
 		self.statusicon = "";
 /**/icon::set(); // Override icons.
 		
-	maps\mp\gametypes\_teams::SetSpectatePermissions();
+	//maps\mp\gametypes\_teams::SetSpectatePermissions();
 
 	if(isDefined(origin) && isDefined(angles))
 		self spawn(origin, angles);
@@ -1363,7 +1365,7 @@ killcam(attackerNum, delay)
 	self.spectatorclient = attackerNum;
 	self.archivetime = delay + 7;
 
-	maps\mp\gametypes\_teams::SetKillcamSpectatePermissions();
+	//maps\mp\gametypes\_teams::SetKillcamSpectatePermissions();
 
 	// wait till the next server frame to allow code a chance to update archivetime if it needs trimming
 	wait 0.05;
@@ -1373,7 +1375,7 @@ killcam(attackerNum, delay)
 		self.spectatorclient = -1;
 		self.archivetime = 0;
 	
-		maps\mp\gametypes\_teams::SetSpectatePermissions();
+		//maps\mp\gametypes\_teams::SetSpectatePermissions();
 		return;
 	}
 
@@ -1448,7 +1450,7 @@ killcam(attackerNum, delay)
 	self.archivetime = 0;
 	self.killcam = undefined;
 	
-	maps\mp\gametypes\_teams::SetSpectatePermissions();
+	//maps\mp\gametypes\_teams::SetSpectatePermissions();
 }
 
 waitKillcamTime()
@@ -1499,8 +1501,9 @@ startGame()
 	level.starttime = getTime();
 	thread startRound();
 	
-	if ( (level.teambalance > 0) && (!game["BalanceTeamsNextRound"]) )
+	/*if ( (level.teambalance > 0) && (!game["BalanceTeamsNextRound"]) )
 		level thread maps\mp\gametypes\_teams::TeamBalance_Check_Roundbased();
+	 */
 }
 
 startRound()
@@ -1676,7 +1679,7 @@ endRound(roundwinner)
 			player.progressbar destroy();
 
 		player unlink();
-		player enableWeapon();
+		//player enableWeapon();
 	}
 
 	objective_delete(0);
@@ -1753,21 +1756,9 @@ endRound(roundwinner)
 
 	if(!game["matchstarted"] && roundwinner == "reset")
 	{
-/**/	if (getCvarInt("g_autodemo") > 0) {
-/**/		players = getentarray("player", "classname");
-/**/		if (level._force_autodemo) {
-/**/			// Assure clients are setup to accept autoscreenshots.
-/**/			for (i = 0; i < players.size; i++) {
-/**/				player setClientCvar("cg_autodemo", true);
-/**/			}
-/**/			wait 1;
-/**/		} else {
-/**/			iPrintLn(level._prefix +  "Use [^3cg_autodemo 0^7] to ^3ignore ^7autodemo next time.");
-/**/		}
 /**/		for (i = 0; i < players.size; i++) {
 /**/			player = players[i];
 /**/
-/**/			player autoDemoStart();
 /**/		}
 /**/	}
 /**/	history::assign();
@@ -1778,8 +1769,8 @@ endRound(roundwinner)
 /**/	if (game["roundsplayed"] == 0) {
 /**/		thread resetScores();
 /**/	}
-	}
 
+/*
 	game["timepassed"] = game["timepassed"] + ((getTime() - level.starttime) / 1000) / 60.0;
 
 	checkTimeLimit();
@@ -1788,17 +1779,19 @@ endRound(roundwinner)
 		return;
 	level.mapended = true;
 
-/**/hud\labels::create(game["p_istr_label_left"], game["p_istr_label_right"], undefined, undefined);
-/**/if (roundwinner == "reset") {
-/**/	if (game["roundsplayed"] == 0) {
-/**/		hud\scoreboard::create(&"SD_MATCHSTARTING", level.p_round_restart_delay);
-/**/	} else {
-/**/		hud\scoreboard::create(&"SD_MATCHRESUMING", level.p_round_restart_delay);
-/**/	}
-/**/} else {
-/**/	hud\scoreboard::create(&"MPSCRIPT_STARTING_NEW_ROUND", level.p_round_restart_delay);
-/**/}
-/**/ wait level.p_round_restart_delay;
+hud\labels::create(game["p_istr_label_left"], game["p_istr_label_right"], undefined, undefined);
+if (roundwinner == "reset") {
+	if (game["roundsplayed"] == 0) {
+		hud\scoreboard::create(&"SD_MATCHSTARTING", level.p_round_restart_delay);
+	} else {
+		hud\scoreboard::create(&"SD_MATCHRESUMING", level.p_round_restart_delay);
+	}
+} else {
+	hud\scoreboard::create(&"MPSCRIPT_STARTING_NEW_ROUND", level.p_round_restart_delay);
+}
+ wait level.p_round_restart_delay;
+
+*/
 
 	// for all living players store their weapons
 	players = getentarray("player", "classname");
@@ -1858,7 +1851,7 @@ endRound(roundwinner)
 	if ( (level.teambalance > 0) && (game["BalanceTeamsNextRound"]) )
 	{
 		level.lockteams = true;
-		level thread maps\mp\gametypes\_teams::TeamBalance();
+		/*level thread maps\mp\gametypes\_teams::TeamBalance();*/
 		level waittill ("Teams Balanced");
 		wait 4;
 	}
@@ -1883,9 +1876,7 @@ endRound(roundwinner)
 endMap()
 {
 /**/history::push();
-/**/if (getCvarInt("g_autodemo") > 0) {
-/**/	player autoDemoStop();
-/**/}
+
 /**/// Move to below.
 /**/// game["state"] = "intermission";
 /**/// level notify("intermission");
@@ -1930,25 +1921,6 @@ endMap()
 
 	wait 1;
 
-	if (getCvar("g_autoscreenshot") == "1")
-	{
-		players = getentarray("player", "classname");
-/**/	if (level._force_autoscreenshots) {
-/**/		// Assure clients are setup to accept autoscreenshots.
-/**/		for (i = 0; i < players.size; i++) {
-/**/			player setClientCvar("cg_autoscreenshot", true);
-/**/		}
-/**/		wait 1;
-/**/	}
-		for(i = 0; i < players.size; i++)
-		{
-			player = players[i];
-		
-			player autoScreenshot();
-		}
-	}
-
-	wait 9;
 	exitLevel(false);
 }
 
@@ -2091,13 +2063,13 @@ updateGametypeCvars()
 					{
 						if(player.pers["team"] == "allies")
 						{
-							player.headicon = game["headicon_allies"];
-							player.headiconteam = "allies";
+							//player.headicon = game["headicon_allies"];
+							//player.headiconteam = "allies";
 						}
 						else
 						{
-							player.headicon = game["headicon_axis"];
-							player.headiconteam = "axis";
+							//player.headicon = game["headicon_axis"];
+							//player.headiconteam = "axis";
 						}
 					}
 				}
@@ -2125,21 +2097,22 @@ updateGametypeCvars()
 				setarchive(false);
 		}
 		
-		freelook = getCvarInt("scr_freelook");
+		/*freelook = getCvarInt("scr_freelook");
 		if (level.allowfreelook != freelook)
 		{
 			level.allowfreelook = getCvarInt("scr_freelook");
 			level maps\mp\gametypes\_teams::UpdateSpectatePermissions();
 		}
-		
+
 		enemyspectate = getCvarInt("scr_spectateenemy");
 		if (level.allowenemyspectate != enemyspectate)
 		{
 			level.allowenemyspectate = getCvarInt("scr_spectateenemy");
 			level maps\mp\gametypes\_teams::UpdateSpectatePermissions();
 		}
+        */
 		
-		teambalance = getCvarInt("scr_teambalance");
+		/*teambalance = getCvarInt("scr_teambalance");
 		if (level.teambalance != teambalance)
 		{
 			level.teambalance = getCvarInt("scr_teambalance");
@@ -2148,6 +2121,8 @@ updateGametypeCvars()
 		}
 
 		wait 1;
+		 */
+        wait 1;
 	}
 }
 
@@ -2348,13 +2323,13 @@ bombzone_think(bombzone_other)
 
 				other playsound("MP_bomb_plant");
 				other linkTo(self);
-				other disableWeapon();
+				//other disableWeapon();
 
 				self.progresstime = 0;
 				while(isAlive(other) && other useButtonPressed() && (self.progresstime < level.planttime))
 				{
 /**/				// Fixes a bug where sometimes the weapon is not disable while progressing.
-/**/				other disableWeapon();
+/**/				//other disableWeapon();
 					self.progresstime += 0.05;
 					wait 0.05;
 				}
@@ -2369,7 +2344,7 @@ bombzone_think(bombzone_other)
 					if(isDefined(other.planticon))
 						other.planticon destroy();
 
-					other enableWeapon();
+					//other enableWeapon();
 
 					level.bombexploder = self.script_noteworthy;
 					
@@ -2420,7 +2395,7 @@ bombzone_think(bombzone_other)
 				else
 				{
 					other unlink();
-					other enableWeapon();
+					//other enableWeapon();
 				}
 				
 				wait .05;
@@ -2563,13 +2538,13 @@ bomb_think()
 
 				other playsound("MP_bomb_defuse");
 				other linkTo(self);
-				other disableWeapon();
+				//other disableWeapon();
 
 				self.progresstime = 0;
 				while(isAlive(other) && other useButtonPressed() && (self.progresstime < level.defusetime))
 				{
 /**/				// Fixes a bug where sometimes the weapon is not disable while progressing.
-/**/				other disableWeapon();
+/**/				//other disableWeapon();
 					self.progresstime += 0.05;
 					wait 0.05;
 				}
@@ -2611,7 +2586,7 @@ bomb_think()
 				else
 				{
 					other unlink();
-					other enableWeapon();
+					//other enableWeapon();
 				}
 				
 				wait .05;

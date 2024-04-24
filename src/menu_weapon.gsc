@@ -123,23 +123,11 @@ menu_weapon_proceed()
 		} else {
 			// maps\mp\gametypes\jump::spawnPlayer();
 		}
-	} else if (gt == "hq") {
-		if (self.sessionstate == "playing") {
-			weaponname = maps\mp\gametypes\_teams::getWeaponName(self.pers["weapon"]);
-
-			if(maps\mp\gametypes\_teams::useAn(self.pers["weapon"]))
-				self iprintln(&"MPSCRIPT_YOU_WILL_RESPAWN_WITH_AN", weaponname);
-			else
-				self iprintln(&"MPSCRIPT_YOU_WILL_RESPAWN_WITH_A", weaponname);
-		} else {
-			self thread maps\mp\gametypes\hq::respawn();
-			self thread maps\mp\gametypes\hq::printJoinedTeam(self.pers["team"]);
-		}
 	} else {
 		// ERROR
 	}
 
-	self thread maps\mp\gametypes\_teams::SetSpectatePermissions();
+	//self thread maps\mp\gametypes\_teams::SetSpectatePermissions();
 	if (isDefined(self.autobalance_notify))
 		self.autobalance_notify destroy();
 }

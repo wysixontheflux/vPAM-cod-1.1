@@ -4,7 +4,7 @@ BIN_DIR ?= ~/opt/cod
 WINE_DIR ?= ~/opt/cod-windows
 
 # Commandline added to server start.
-ARGS ?= 
+ARGS ?=
 MAP ?= mp_harbor
 
 # Mod to build: vpam or wrs.
@@ -19,23 +19,23 @@ else
 main_dirname = uo
 endif
 
-# Find and list files maintaining relative paths from the 'src/' or '$(MOD)/' directory
-SRC_FILES = $(shell find src/ -type f -name '*.gsc' | sed 's|^src/||')
-MOD_FILES = $(shell find $(MOD)/ -type f -name '*.gsc' | sed 's|^$(MOD)/||')
+# Correctly finding and listing files
+SRC_FILES = $(shell find src/ -type f -name '*.gsc')
+MOD_FILES = $(shell find $(MOD)/ -type f -name '*.gsc')
 
 $(outfile): $(SRC_FILES) $(MOD_FILES)
 	@echo Creating PK3 file from source files...
-	@cd src/ && zip -r ../$(outfile) $(SRC_FILES)
-	@cd $(MOD)/ && zip -r ../$(outfile) $(MOD_FILES)
+	@cd src/ && zip -r ../$(outfile) .
+	@cd $(MOD)/ && zip -r ../$(outfile) .
 
 .PHONY: clean
 clean:
-	rm -f $(outfile)
+	@rm -f $(outfile)
 
 .PHONY: run
 .PHONY: install
 
-# Linux
+# Commands for running the server
 ifndef WINE
 run: install
 	HOMEPATH="$$homepath" BINDIR="$$BIN_DIR" ./run \
@@ -44,11 +44,10 @@ run: install
 		+devmap $(MAP)
 
 install: $(outfile)
-	rm -rf $(homepath)/$(main_dirname)/
-
-	mkdir -p $(homepath)/$(main_dirname)/
-	cp $(outfile) $(homepath)/$(main_dirname)/
-	cp -r cfg $(homepath)/$(main_dirname)/
+	@rm -rf $(homepath)/$(main_dirname)/
+	@mkdir -p $(homepath)/$(main_dirname)/
+	@cp $(outfile) $(homepath)/$(main_dirname)/
+	@cp -r cfg $(homepath)/$(main_dirname)/
 
 # Wine (to run Windows server under Linux)
 else
@@ -59,11 +58,10 @@ run: install
 		+devmap $(MAP)
 
 install: $(outfile)
-	rm -f $(WINE_DIR)/$(main_dirname)/z_*.pk3
-	rm -f $(WINE_DIR)/$(main_dirname)/*.cfg
-	rm -f $(WINE_DIR)/$(main_dirname)/*.log
-	rm -rf $(WINE_DIR)/$(main_dirname)/cfg/
-
-	cp $(outfile) $(WINE_DIR)/$(main_dirname)/
-	cp -r cfg $(WINE_DIR)/$(main_dirname)/
+	@rm -f $(WINE_DIR)/$(main_dirname)/z_*.pk3
+	@rm -f $(WINE_DIR)/$(main_dirname)/*.cfg
+	@rm -f $(WINE_DIR)/$(main_dirname)/*.log
+	@rm -rf $(WINE_DIR)/$(main_dirname)/cfg/
+	@cp $(outfile) $(WINE_DIR)/$(main_dirname)/
+	@cp -r cfg $(WINE_DIR)/$(main_dirname)/
 endif

@@ -140,11 +140,7 @@ _check_aim_run(slot)
 			break;
 		}
 
-		if (self attackButtonPressed()) {
-			self disableWeapon();
-		}
 
 		wait 0.05;
-		self enableWeapon();
 	}
 }

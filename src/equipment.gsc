@@ -29,7 +29,7 @@ take_or_set(primary_weapon)
 
 	if (level._allow_pistol) {
 		if (self getWeaponSlotWeapon("pistol") == "none") {
-			maps\mp\gametypes\_teams::givePistol();
+			//maps\mp\gametypes\_teams::givePistol();
 		}
 	} else {
 		self takeWeapon(self getWeaponSlotWeapon("pistol"));
@@ -37,7 +37,7 @@ take_or_set(primary_weapon)
 
 	if (level._allow_nades) {
 		if (self getWeaponSlotWeapon("grenade") == "none") {
-			maps\mp\gametypes\_teams::giveGrenades(primary_weapon);
+			//maps\mp\gametypes\_teams::giveGrenades(primary_weapon);
 		}
 
 		n = self _get_nade_count(primary_weapon);

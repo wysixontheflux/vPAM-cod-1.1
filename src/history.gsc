@@ -235,7 +235,7 @@ team_id_guids(team)
 	players = getEntArray("player", "classname");
 	for (i = 0; i < players.size; i++) { 
 		if (players[i].pers["team"] == team) {
-			guid = players[i] getGuid();
+			guid = players[i];
 			guids[guids.size] = guid;
 			if (guid == 0) {
 				zeroes++;
